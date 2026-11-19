@@ -1,4 +1,6 @@
-# 删除站点后阻止 CookieCloud 回添
+# 站点防CookieCloud回添
+
+<img src="icons/cookieclouddeleteguard.png" alt="站点防CookieCloud回添图标" width="96">
 
 MoviePilot V3 插件。启用后，在站点管理中删除单个站点，插件会把域名追加到 MoviePilot 的 CookieCloud 同步黑名单。其他站点按原有设置同步。
 
@@ -6,7 +8,7 @@ MoviePilot V3 插件。启用后，在站点管理中删除单个站点，插件
 
 1. 使用 MoviePilot V3.2.8 或更新版本。
 2. 在「插件 → 插件市场设置」添加仓库 `https://github.com/luckysmithlee/moviepilot-cookiecloud-delete-guard`。
-3. 刷新插件市场，安装「删除站点后阻止 CookieCloud 回添」，打开插件配置并启用。
+3. 刷新插件市场，安装「站点防CookieCloud回添」，打开插件配置并启用。
 
 ## 使用
 
@@ -22,3 +24,9 @@ MoviePilot V3 插件。启用后，在站点管理中删除单个站点，插件
 ```sh
 env -u CONFIG_DIR python -c 'from pathlib import Path; import unittest; from app.testing.bootstrap import prepare_v3_backend; prepare_v3_backend(Path.cwd()); suite = unittest.defaultTestLoader.discover("tests/v3/cookieclouddeleteguard"); raise SystemExit(not unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful())'
 ```
+
+## 图标
+
+盾牌中心使用 CookieCloud 浏览器扩展的原始图标。组合图标采用 [GPL-3.0](icons/source/CookieCloud-GPL-3.0.txt)。[原图](https://github.com/easychen/CookieCloud/blob/cff74d6d4dd688cdb19bce1a23a013ee8a224f25/extension/assets/icon.png) · [上游设计源文件](https://github.com/easychen/CookieCloud/blob/cff74d6d4dd688cdb19bce1a23a013ee8a224f25/design/logo.xd)
+
+两张图层位于 `icons/source/`。在 macOS 上可在仓库根目录运行 `swift icons/build.swift` 重新生成市场图标。

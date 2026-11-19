@@ -24,10 +24,10 @@ def _hostname(value: str) -> str:
 class CookieCloudDeleteGuard(_PluginBase):
     """Remember site domains and blacklist each site after its deletion commits."""
 
-    plugin_name = "删除站点后阻止 CookieCloud 回添"
+    plugin_name = "站点防CookieCloud回添"
     plugin_desc = "删除单个站点后，将域名追加到 CookieCloud 同步黑名单。"
-    plugin_icon = "https://raw.githubusercontent.com/jxxghp/MoviePilot-Plugins/main/icons/Moviepilot_A.png"
-    plugin_version = "1.0.0"
+    plugin_icon = "https://raw.githubusercontent.com/luckysmithlee/moviepilot-cookiecloud-delete-guard/main/icons/cookieclouddeleteguard.png"
+    plugin_version = "3.0.1"
     plugin_author = "luckysmithlee"
     author_url = "https://github.com/luckysmithlee"
     plugin_config_prefix = "cookieclouddeleteguard_"
