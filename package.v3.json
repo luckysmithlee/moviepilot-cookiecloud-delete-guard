@@ -1,0 +1,17 @@
+{
+  "CookieCloudDeleteGuard": {
+    "name": "删除站点后阻止 CookieCloud 回添",
+    "description": "删除单个站点后，将域名追加到 CookieCloud 同步黑名单。",
+    "labels": "站点,CookieCloud",
+    "version": "1.0.0",
+    "icon": "https://raw.githubusercontent.com/jxxghp/MoviePilot-Plugins/main/icons/Moviepilot_A.png",
+    "author": "luckysmithlee",
+    "level": 1,
+    "system_version": ">=3.2.8",
+    "release": true,
+    "plugin_readme": "https://github.com/luckysmithlee/moviepilot-cookiecloud-delete-guard#readme",
+    "history": {
+      "v1.0.0": "删除单个站点后写入 CookieCloud 同步黑名单。"
+    }
+  }
+}
