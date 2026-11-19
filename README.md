@@ -27,6 +27,6 @@ env -u CONFIG_DIR python -c 'from pathlib import Path; import unittest; from app
 
 ## 图标
 
-盾牌中心使用 CookieCloud 浏览器扩展的原始图标。组合图标采用 [GPL-3.0](icons/source/CookieCloud-GPL-3.0.txt)。[原图](https://github.com/easychen/CookieCloud/blob/cff74d6d4dd688cdb19bce1a23a013ee8a224f25/extension/assets/icon.png) · [上游设计源文件](https://github.com/easychen/CookieCloud/blob/cff74d6d4dd688cdb19bce1a23a013ee8a224f25/design/logo.xd)
+盾牌中央使用 CookieCloud 浏览器扩展图标里的饼干样式，保留原设计的饼干占位。组合图标采用 [GPL-3.0](icons/source/CookieCloud-GPL-3.0.txt)。[原图](https://github.com/easychen/CookieCloud/blob/cff74d6d4dd688cdb19bce1a23a013ee8a224f25/extension/assets/icon.png) · [上游设计源文件](https://github.com/easychen/CookieCloud/blob/cff74d6d4dd688cdb19bce1a23a013ee8a224f25/design/logo.xd)
 
-两张图层位于 `icons/source/`。在 macOS 上可在仓库根目录运行 `swift icons/build.swift` 重新生成市场图标。
+设计原稿和 CookieCloud 参考原图位于 `icons/source/`。在 macOS 上可在仓库根目录运行 `sips -z 512 512 icons/source/icon-design.png --out icons/cookieclouddeleteguard.png` 重新生成市场图标。
