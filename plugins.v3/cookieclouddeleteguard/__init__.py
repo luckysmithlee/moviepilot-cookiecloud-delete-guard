@@ -127,7 +127,7 @@ class CookieCloudDeleteGuard(_PluginBase):
                             {
                                 "component": "p",
                                 "props": {"class": "text-body-2 text-medium-emphasis mt-3 mb-0"},
-                                "text": "要恢复某个站点的同步，请在「设定 → 系统 → 站点设置」中移除对应域名。",
+                                "text": "要恢复某个站点的同步，请在「设定 → 站点 → 站点同步 → CookieCloud同步域名黑名单」中移除对应域名。",
                             },
                         ],
                     },
