@@ -83,3 +83,31 @@ class CookieCloudDeleteGuardTest(TestCase):
         self.delete(1)
         self.delete(1)
         self.assertEqual(self.settings.update_setting.call_count, 2)
+
+    def test_detail_page_shows_enabled_state_and_current_domains(self):
+        self.enable()
+        self.settings.COOKIECLOUD_BLACKLIST = (
+            ", https://B.example:443/, a.example, b.example, //[invalid"
+        )
+        status, card = self.plugin.get_page()
+        domain_list = card["content"][0]["content"][0]
+        self.assertEqual(status["props"]["title"], "防回添已启用")
+        self.assertIn("共 2 个域名", card["props"]["subtitle"])
+        self.assertEqual(
+            [item["props"]["title"] for item in domain_list["content"]],
+            ["a.example", "b.example"],
+        )
+        self.settings.update_setting.assert_not_called()
+
+    def test_detail_page_shows_empty_state(self):
+        self.settings.COOKIECLOUD_BLACKLIST = None
+        _, card = self.plugin.get_page()
+        self.assertIn("共 0 个域名", card["props"]["subtitle"])
+        self.assertEqual(card["content"][0]["content"][0]["text"], "当前黑名单为空。")
+
+    def test_detail_page_lists_existing_domains_when_disabled(self):
+        status, card = self.plugin.get_page()
+        self.assertEqual(status["props"]["title"], "防回添已停用")
+        self.assertIn("仍会生效", status["props"]["text"])
+        self.assertIn("共 1 个域名", card["props"]["subtitle"])
+        self.settings.update_setting.assert_not_called()

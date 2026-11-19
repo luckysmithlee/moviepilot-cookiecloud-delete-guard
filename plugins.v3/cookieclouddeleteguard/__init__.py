@@ -21,6 +21,13 @@ def _hostname(value: str) -> str:
     return (host or "").rstrip(".").lower()
 
 
+def _blacklist_domains(blacklist: str) -> set[str]:
+    """Read the distinct domain names from the configured blacklist."""
+    domains = {_hostname(entry) for entry in blacklist.split(",")}
+    domains.discard("")
+    return domains
+
+
 class CookieCloudDeleteGuard(_PluginBase):
     """Remember site domains and blacklist each site after its deletion commits."""
 
@@ -75,8 +82,58 @@ class CookieCloudDeleteGuard(_PluginBase):
             },
         ], {"enabled": False}
 
-    def get_page(self) -> None:
-        return None
+    def get_page(self) -> list[dict]:
+        """Show the plugin state and the system's current CookieCloud blacklist."""
+        enabled = self.get_state()
+        domains = sorted(_blacklist_domains(settings.COOKIECLOUD_BLACKLIST or ""))
+        blacklist = {
+            "component": "VList",
+            "props": {"density": "compact", "aria-label": "CookieCloud 同步黑名单"},
+            "content": [
+                {"component": "VListItem", "props": {"title": domain}}
+                for domain in domains
+            ],
+        } if domains else {
+            "component": "p",
+            "props": {"class": "text-body-2"},
+            "text": "当前黑名单为空。",
+        }
+        return [
+            {
+                "component": "VAlert",
+                "props": {
+                    "type": "success" if enabled else "info",
+                    "variant": "tonal",
+                    "class": "mb-4",
+                    "title": "防回添已启用" if enabled else "防回添已停用",
+                    "text": (
+                        "删除单个站点后，插件会将域名追加到同步黑名单。"
+                        if enabled else "插件暂停自动追加。已有黑名单条目仍会生效。"
+                    ),
+                },
+            },
+            {
+                "component": "VCard",
+                "props": {
+                    "variant": "outlined",
+                    "title": "CookieCloud 同步黑名单",
+                    "subtitle": f"共 {len(domains)} 个域名，包含手动添加的条目",
+                },
+                "content": [
+                    {
+                        "component": "VCardText",
+                        "content": [
+                            blacklist,
+                            {
+                                "component": "p",
+                                "props": {"class": "text-body-2 text-medium-emphasis mt-3 mb-0"},
+                                "text": "要恢复某个站点的同步，请在「设定 → 系统 → 站点设置」中移除对应域名。",
+                            },
+                        ],
+                    },
+                ],
+            },
+        ]
 
     def stop_service(self) -> None:
         """Stop processing events and discard the site snapshot."""
@@ -119,7 +176,7 @@ class CookieCloudDeleteGuard(_PluginBase):
                 logger.warning("站点 ID %s 缺少域名快照，无法添加 CookieCloud 黑名单", site_id)
                 return
             blacklist = settings.COOKIECLOUD_BLACKLIST or ""
-            if domain not in {_hostname(entry) for entry in blacklist.split(",")}:
+            if domain not in _blacklist_domains(blacklist):
                 updated = f"{blacklist},{domain}" if blacklist.strip() else domain
                 success, message = settings.update_setting("COOKIECLOUD_BLACKLIST", updated)
                 if success is False:
